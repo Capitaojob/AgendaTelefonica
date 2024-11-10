@@ -1,28 +1,34 @@
-# AplicaÁ„o WEB de Agenda TelefÙnica
+# Aplica√ß√£o WEB de Agenda Telef√¥nica
 
-Esta È uma aplicaÁ„o web de agenda telefÙnica que permite o cadastro e a pesquisa de contatos, incluindo informaÁıes como nome, idade e n˙meros de telefone. Os contatos podem ser pesquisados, alterados e excluÌdos, com log gerado apÛs cada alteraÁ„o.
+Esta √© uma aplica√ß√£o web de agenda telef√¥nica que permite o cadastro e a pesquisa de contatos, incluindo informa√ß√µes como nome, idade e n√∫meros de telefone. Os contatos podem ser pesquisados, alterados e exclu√≠dos, com log gerado ap√≥s cada altera√ß√£o.
+
+## Tecnologias
+- **ASP.NET com C#**
+- **Entity Framework**
+- **Razor Pages**
+- **MySQL**
 
 ## Funcionalidades
 
 ### Cadastro e Pesquisa de Contatos
-- **Cadastro de Contato**: Permite incluir um novo contato com nome, idade e n˙meros de telefone.
-- **Pesquisa de Contato**: Permite buscar contatos por nome ou n˙mero de telefone.
-- **AlteraÁ„o de Contato**: Permite alterar as informaÁıes de um contato selecionado.
-- **Exclus„o de Contato**: Permite excluir um contato e seus telefones associados.
+- **Cadastro de Contato**: Permite incluir um novo contato com nome, idade e n√∫meros de telefone.
+- **Pesquisa de Contato**: Permite buscar contatos por nome ou n√∫mero de telefone.
+- **Altera√ß√£o de Contato**: Permite alterar as informa√ß√µes de um contato selecionado.
+- **Exclus√£o de Contato**: Permite excluir um contato e seus telefones associados.
 
 ### Telas
 - **Cadastro de Contato**: Tela para adicionar um novo contato.
-  - Bot„o para inclus„o de contato.
+  - Bot√£o para inclus√£o de contato.
   
 - **Pesquisa de Contato**: Tela para pesquisa de contatos.
-  - Bot„o para pesquisa dos contatos.
-  - Bot„o para alterar o contato selecionado.
-  - Bot„o para excluir o contato selecionado.
+  - Bot√£o para pesquisa dos contatos.
+  - Bot√£o para alterar o contato selecionado.
+  - Bot√£o para excluir o contato selecionado.
    
-- **Telefones para Contato**: Cada contato pode ter qualquer n˙mero de telefones, cadastrados na tela do contato.
+- **Telefones para Contato**: Cada contato pode ter qualquer n√∫mero de telefones, cadastrados na tela do contato.
 
 ### Log
-- Arquivo `.txt` com log gerado apÛs cada exclus„o, o caminho para geraÁ„o do log pode ser alterado no appsettings.json, caminho "LogOutputPath":
+- Arquivo `.txt` com log gerado ap√≥s cada exclus√£o, o caminho para gera√ß√£o do log pode ser alterado no appsettings.json, caminho "LogOutputPath":
 ```json
     "LogOutputPath": "C:\\Users\\User\\Documents\\logs"
 ``` 
@@ -30,7 +36,7 @@ Esta È uma aplicaÁ„o web de agenda telefÙnica que permite o cadastro e a pesquis
 
 ---
 
-## DocumentaÁ„o
+## Documenta√ß√£o
 
 ### Banco de Dados
 
@@ -48,15 +54,15 @@ CREATE TABLE Telefone (
     ID BIGINT PRIMARY KEY AUTO_INCREMENT,
     IDCONTATO BIGINT,
     NUMERO VARCHAR(16) NOT NULL,
-    FOREIGN KEY (IDCONTATO) REFERENCES Contato(ID) ON DELETE CASCADE -- Cascade adicionado para, ao apagar o registro do contato, todos os telefones do mesmo sigam a deleÁ„o
+    FOREIGN KEY (IDCONTATO) REFERENCES Contato(ID) ON DELETE CASCADE -- Cascade adicionado para, ao apagar o registro do contato, todos os telefones do mesmo sigam a dele√ß√£o
 );
 
--- Õndices para otimizaÁ„o de performance com base nos campos utilizados para pesquisa
+-- √çndices para otimiza√ß√£o de performance com base nos campos utilizados para pesquisa
 CREATE INDEX idx_nome_contato ON Contato (NOME);
 CREATE INDEX idx_numero_telefone ON Telefone (NUMERO);
 
--- InserÁ„o de dados iniciais
-INSERT INTO Contato (NOME, IDADE) VALUES ("T˙lio Silva", 24);
+-- Inser√ß√£o de dados iniciais
+INSERT INTO Contato (NOME, IDADE) VALUES ("T√∫lio Silva", 24);
 INSERT INTO Telefone (IDCONTATO, NUMERO) VALUES (1, "16993572303");
 ```
 
@@ -64,7 +70,7 @@ INSERT INTO Telefone (IDCONTATO, NUMERO) VALUES (1, "16993572303");
 
 - **Pomelo.EntityFrameworkCore.MySql**: Para suporte ao MySQL no Entity Framework Core.
 - **Microsoft.EntityFrameworkCore.Design**: Ferramentas para design do Entity Framework.
-- **Microsoft.EntityFrameworkCore.Tools**: Ferramentas de migraÁ„o e scaffolding para o Entity Framework Core.
+- **Microsoft.EntityFrameworkCore.Tools**: Ferramentas de migra√ß√£o e scaffolding para o Entity Framework Core.
 
 Para instalar os pacotes, execute os seguintes comandos:
 
@@ -74,9 +80,9 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 ```
 
-### Conex„o com o Banco de Dados
+### Conex√£o com o Banco de Dados
 
-Altere o arquivo `appsettings.json` para configurar a conex„o com o seu banco de dados:
+Altere o arquivo `appsettings.json` para configurar a conex√£o com o seu banco de dados:
 
 ```json
 {
@@ -88,28 +94,28 @@ Altere o arquivo `appsettings.json` para configurar a conex„o com o seu banco de
 
 ---
 
-## InstruÁıes de Uso
+## Instru√ß√µes de Uso
 
-1. Clone o repositÛrio e abra o projeto no Visual Studio ou no Visual Studio Code.
-2. Execute o comando para instalar as dependÍncias:
+1. Clone o reposit√≥rio e abra o projeto no Visual Studio ou no Visual Studio Code.
+2. Execute o comando para instalar as depend√™ncias:
    ```bash
    dotnet restore
    ```
-3. Configure sua conex„o com o banco de dados no arquivo `appsettings.json`.
-4. Execute a aplicaÁ„o usando o comando:
+3. Configure sua conex√£o com o banco de dados no arquivo `appsettings.json`.
+4. Execute a aplica√ß√£o usando o comando:
    ```bash
    dotnet run
    ```
-5. Acesse a aplicaÁ„o no navegador e utilize a interface para cadastrar, pesquisar, alterar e excluir contatos.
+5. Acesse a aplica√ß√£o no navegador e utilize a interface para cadastrar, pesquisar, alterar e excluir contatos.
 
 ---
 
-## ContribuiÁ„o
+## Contribui√ß√£o
 
-Sinta-se ‡ vontade para contribuir com melhorias, correÁıes ou sugestıes. Para isso, faÁa um fork do repositÛrio, crie sua branch de funcionalidade, e envie um pull request com suas alteraÁıes.
+Sinta-se √† vontade para contribuir com melhorias, corre√ß√µes ou sugest√µes. Para isso, fa√ßa um fork do reposit√≥rio, crie sua branch de funcionalidade, e envie um pull request com suas altera√ß√µes.
 
 ---
 
-## LicenÁa
+## Licen√ßa
 
-Este projeto È licenciado sob a [MIT License](LICENSE).
+Este projeto √© licenciado sob a [MIT License](LICENSE).
