@@ -1,0 +1,6 @@
+Contato Excluído:
+ID: 5
+Nome: Pretty
+Idade: 12
+Data da Exclusão: 10/11/2024 09:50:44
+------------

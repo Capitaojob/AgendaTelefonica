@@ -1,0 +1,142 @@
+﻿@page
+@model AgendaTelefonica.Pages.Contato.IndexModel
+
+@{
+    ViewData["Title"] = "Contatos";
+}
+
+<style>
+    .table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+        .table th:nth-child(1), .table td:nth-child(1) {
+            width: 40%;
+        }
+
+        .table th:nth-child(2), .table td:nth-child(2) {
+            width: 10%;
+        }
+
+        .table th:nth-child(3), .table td:nth-child(3) {
+            width: 30%;
+        }
+
+        .table th:nth-child(4), .table td:nth-child(4) {
+            width: 20%;
+        }
+</style>
+
+<div class="container mt-5">
+    <h1 class="display-4 text-center mb-4">Agenda de Contatos</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mx-auto d-flex justify-content-between input-group">
+            <input type="text" class="form-control" id="nameSearchInput" placeholder="Pesquisar por nome..." onkeydown="searchKeyDownHandler(event)">
+            <input type="text" class="form-control" id="phoneSearchInput" placeholder="Pesquisar por telefone..." onkeydown="searchKeyDownHandler(event)">
+            <button class="btn btn-primary " onclick="searchContacts()">
+                Buscar
+            </button>
+        </div>
+    </div>
+
+    <div class="text-center mb-4">
+        <a class="btn btn-primary btn-lg" asp-page="Create">Criar Novo Contato</a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Telefone(s)</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="contactTableBody">
+            @foreach (var item in Model.Contato)
+            {
+                var telefoneList = string.Join(",", item.Telefones.Select(t => t.Numero));
+        
+                <tr data-telefones="@telefoneList">
+                    <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Idade)</td>
+                    <td title="Consulte todos os telefones na ação Detalhes">
+                        @if (item.Telefones.Count == 0)
+                        {
+                            @("Nenhum contato registrado")
+                        }
+                        else if (item.Telefones.Count == 1)
+                        {
+                            @item.Telefones[0].Numero
+                        }
+                        else if (item.Telefones.Count == 2)
+                        {
+                            @($"{item.Telefones[0].Numero}, {item.Telefones[1].Numero}")
+                        }
+                        else if (item.Telefones.Count > 2)
+                        {
+                            @($"{item.Telefones[0].Numero}, {item.Telefones[1].Numero}, ...")
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary btn-sm text-decoration-none text-white" asp-page="./Edit" asp-route-id="@item.Id">Editar</a>
+                        <a class="btn btn-secondary btn-sm text-decoration-none text-white" asp-page="./Details" asp-route-id="@item.Id">Detalhes</a>
+                        <a class="btn btn-danger btn-sm text-decoration-none text-white" asp-page="./Delete" asp-route-id="@item.Id">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        function searchKeyDownHandler(event) {
+            if (event.key == 'Enter') {
+                event.preventDefault();
+                searchContacts();
+            }
+        }
+
+        function searchContacts() {
+            var nameInput = document.getElementById('nameSearchInput').value.toLowerCase();
+            var phoneInput = document.getElementById('phoneSearchInput').value.toLowerCase();
+            var rows = document.getElementById('contactTableBody').querySelectorAll('tr');
+
+            if (nameInput == "" && phoneInput == "") {
+                rows.forEach((row) => {
+                    row.style.display = "";
+                });
+            }
+
+            rows.forEach((row) => {
+                var nameCell = row.querySelector('td:nth-child(1)');
+                var phoneAttribute = row.getAttribute('data-telefones');
+                var displayRow = true;
+
+                console.log(row, phoneAttribute);
+
+                if (nameInput && nameCell) {
+                    console.log("Checking name");
+                    var nameText = nameCell.textContent.trim().toLowerCase();
+                    if (!nameText.includes(nameInput)) {
+                        displayRow = false;
+                    }
+                }
+
+                if (phoneInput != "" && phoneAttribute) {
+                    console.log("Checking phone");
+                    var phoneList = phoneAttribute.replace(" ", "").split(",").filter(number => !isNaN(number));
+                    var foundPhone = phoneList.some(phoneText => phoneText.includes(phoneInput));
+
+                    if (!foundPhone) displayRow = false;
+                } else if (phoneInput != "" && phoneAttribute === "") displayRow = false;
+
+                if (displayRow) row.style.display = "";
+                else row.style.display = "none";
+            });
+        }
+    </script>
+}

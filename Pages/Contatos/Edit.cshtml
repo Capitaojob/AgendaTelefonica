@@ -1,0 +1,127 @@
+﻿@page
+@model AgendaTelefonica.Pages.Contato.EditModel
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h1>Editar Contato</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Contato.Id" />
+            <div class="form-group">
+                <label asp-for="Contato.Nome" class="control-label"></label>
+                <input asp-for="Contato.Nome" class="form-control" />
+                <span asp-validation-for="Contato.Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contato.Idade" class="control-label"></label>
+                <input asp-for="Contato.Idade" class="form-control" />
+                <span asp-validation-for="Contato.Idade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contato.Telefones" class="control-label">Telefone</label>
+                <div id="telefones-container">
+                    @for (int i = 0; i < Model.Contato.Telefones.Count; i++)
+                    {
+                        <div class="telefone-entry input-group @(i == 0 ? "" : "mt-2")">
+                            <input type="hidden" asp-for="Telefones[i].Id" />
+                            <input type="text" name="Telefones[@i].Numero" value="@Model.Contato.Telefones[i].Numero"
+                                   maxlength="16"
+                                   class="form-control"
+                                   placeholder="Digite o telefone" />
+                            <span asp-validation-for="Telefones" class="text-danger"></span>
+                            <button type="button" class="btn btn-danger btn-sm delete-phone-btn" data-index="@i" onclick="deletePhoneHandler(event)">
+                                Remover
+                            </button>
+                        </div>
+                    }
+                </div>
+                <button type="button" id="add-phone-btn" class="btn btn-secondary mt-2">Adicionar Telefone</button>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Salvar" class="btn btn-primary" /> |
+                <a class="btn btn-secondary" asp-page="./Index">Voltar à Listagem</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        var telefoneIndex = @Model.Contato.Telefones.Count;
+
+        document.getElementById("add-phone-btn").addEventListener('click', function () {
+            var lastEntry = document.querySelector(".telefone-entry:last-child input");
+            if (lastEntry && lastEntry.value === "") return;
+            var container = document.getElementById("telefones-container");
+
+            var entryDiv = document.createElement("div");
+            var input = document.createElement("input");
+            var deleteBtn = document.createElement("button");
+
+            entryDiv.classList.add("telefone-entry", "input-group");
+
+            if (telefoneIndex > 0) entryDiv.classList.add("mt-2");
+
+            input.type = "text";
+            input.name = "Telefones[" + telefoneIndex + "].Numero";
+            input.classList.add("form-control");
+            input.placeholder = "Digite o telefone";
+
+            deleteBtn.type = "button";
+            deleteBtn.className = "btn btn-danger btn-sm delete-phone-btn d-inline"
+            deleteBtn.dataset.index = telefoneIndex;
+            deleteBtn.addEventListener("click", (event) => deletePhoneHandler(event));
+            deleteBtn.innerText = "Remover";
+
+            entryDiv.appendChild(input);
+            entryDiv.appendChild(deleteBtn);
+            container.appendChild(entryDiv);
+            telefoneIndex++;
+        });
+
+        function deletePhoneHandler(event) {
+            var phoneEntries = document.getElementById("telefones-container").querySelectorAll(".telefone-entry");
+
+            if (phoneEntries.length == 1) return;
+
+            var i = Number(event.target.dataset["index"]) + 1;
+            var entryDiv = event.target.parentElement;
+            entryDiv.remove();
+
+            if (i == phoneEntries.length) {
+                telefoneIndex = i - 1;
+                return;
+            }
+
+            for (i; i < phoneEntries.length; i++) {
+                let entry = phoneEntries[i];
+                let newIndex = i - 1;
+                let inputs = entry.querySelectorAll("input");
+                let deleteBtn = entry.querySelector("button.delete-phone-btn");
+
+                console.log(entry, i)
+
+                inputs.forEach(input => {
+                    if (input.type == "hidden") {
+                        input.id = "Telefones_" + newIndex + "__Id";
+                        input.name = "Telefones[" + newIndex + "].Id";
+                    } else {
+                        input.name = "Telefones[" + newIndex + "].Numero";
+                    }
+                });
+
+                deleteBtn.dataset.index = newIndex;
+            }
+
+            telefoneIndex = phoneEntries.length - 1;
+        }
+    </script>
+}

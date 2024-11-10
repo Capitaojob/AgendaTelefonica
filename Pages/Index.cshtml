@@ -1,0 +1,35 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4 mb-4">Agenda Telefônica</h1>
+        <p class="lead">Bem-vindo à aplicação de <strong>Agenda Telefônica</strong>, onde você pode facilmente cadastrar, pesquisar, alterar e excluir contatos.</p>
+    </div>
+
+    <!-- Descrição -->
+    <section class="mt-5">
+        <h2 class="display-5 mb-3">Descrição</h2>
+        <p>A aplicação de agenda telefônica é um sistema web simples e funcional para cadastrar, pesquisar, alterar e excluir contatos.</p>
+        <p>Cada contato possui o nome da pessoa, a idade e múltiplos números de telefone, com funcionalidade de pesquisa indexada tanto pelo nome quanto pelo número de telefone.</p>
+        <p>A aplicação utiliza o ASP.NET Core com o Entity Framework Core para a persistência dos dados no banco de dados MySQL.</p>
+    </section>
+
+    <hr class="my-5" />
+
+    <!-- Tecnologias Utilizadas -->
+    <section class="mt-5">
+        <h2 class="display-5 mb-3">Tecnologias Utilizadas</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><strong>ASP.NET Core MVC</strong>: Estrutura web para a construção da aplicação.</li>
+            <li class="list-group-item"><strong>Entity Framework Core</strong>: ORM (Object-Relational Mapper) para interação com o banco de dados.</li>
+            <li class="list-group-item"><strong>Pomelo.EntityFrameworkCore.MySql</strong>: Provedor MySQL para o Entity Framework.</li>
+            <li class="list-group-item"><strong>JavaScript</strong>: Para interação no client side.</li>
+            <li class="list-group-item"><strong>CSHTML (Razor, HTML e CSS)</strong>: Para construção da interface do usuário.</li>
+            <li class="list-group-item"><strong>MySQL</strong>: Banco de dados relacional para armazenar os dados dos contatos.</li>
+        </ul>
+    </section>
+</div>
